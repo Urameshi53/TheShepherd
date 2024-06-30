@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<section class="single-post-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-flex post-content" data-aos="fade-up">
+
+        <!-- ======= Single Post Content ======= -->
+        <div class="single-post">
+          <div class="post-meta"><span class="date">Business</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
+          <h1 class="mb-5">{{ discussion.content }}</h1>
+          <p><span class="firstcharacter">L</span>orem ipsum dolor sit, amet consectetur adipisicing elit. Ratione officia sed, suscipit distinctio, numquam omnis quo fuga ipsam quis inventore voluptatum recusandae culpa, unde doloribus saepe labore alias voluptate expedita? Dicta delectus beatae explicabo odio voluptatibus quas, saepe qui aperiam autem obcaecati, illo et! Incidunt voluptas culpa neque repellat sint, accusamus beatae, cumque autem tempore quisquam quam eligendi harum debitis.</p>
+          <p>Est soluta veritatis laboriosam, consequuntur temporibus asperiores, fugit id a ullam sed, expedita sequi doloribus fugiat. Odio et necessitatibus enim nam, iste reprehenderit cupiditate omnis ut iure aliquid obcaecati, repellendus nemo provident eveniet tempora minus! Voluptates aut laboriosam, maiores nihil accusantium, a dolorum quaerat tenetur illo eum culpa cum laudantium sunt doloremque modi possimus magni? Perferendis cum repudiandae corrupti porro.</p>
+        </div><!-- End Single Post Content -->
+
+        <!-- ======= Comments ======= -->
+        <div class="comments">
+          <h5 class="comment-title py-4">{{ comments | length }} Comments</h5>
+          
+          {% for comment in comments %}
+          <div class="comment d-flex">
+            <div class="flex-shrink-0">
+              <div class="avatar avatar-sm rounded-circle">
+                <img class="avatar-img" src="{% static 'assets/img/person-2.jpg' %}" alt="" class="img-fluid">
+              </div>
+            </div>
+            <div class="flex-shrink-1 ms-2 ms-sm-3">
+              <div class="comment-meta d-flex">
+                <h6 class="me-2">{{ comment.author.user.username }}</h6>
+                <span class="text-muted">{{ comment.pub_date | timesince }} ago</span>
+              </div>
+              <div class="comment-body">
+                {{comment.comment_text}}              
+              </div>
+            </div>
+          </div>
+          <br>
+          {% endfor %}
+
+        </div><!-- End Comments -->
+
+        <!-- ======= Comments Form ======= -->
+        <div>
+          <h5 class="comment-title">Leave a Comment</h5>
+          <form method="POST" action="{% url 'discussions:post_comment' discussion.id %}">
+
+            {% csrf_token %}
+            <div class="row">
+              {{ form.comment_text }}
+                <!--<div class="col-12 mb-3">
+                  <label for="comment-message">Message</label>--
+
+                  <textarea class="form-control" id="comment-message" placeholder="Enter your name" cols="30" rows="10"></textarea>
+                </div>-->
+              <div class="col-4">
+                <input type="submit" class="btn btn-primary" value="Post comment">
+              </div>
+              </div>
+            </div>
+          </form>
+      </div><!-- End Comments Form -->
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
