@@ -3,60 +3,75 @@ from django.contrib.auth.models import User
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=100, 
-                            widget=forms.TextInput(attrs={
+    email = forms.EmailField(widget=forms.TextInput(attrs={
                                 'class':'form-control',
-                                'id':'yourUsername',
-                                'label':'Username'
+                                'id':'email',
+                                'label':'Email'
                                 }))
-    password = forms.CharField(max_length=60,
-                               widget=forms.TextInput(attrs={
+    password = forms.CharField(max_length=100, 
+                            widget=forms.PasswordInput(attrs={
                                 'class':'form-control',
                                 'id':'password',
                                 }))
-
     class Meta:
         model = User 
-        fields = ['username', 'email']
+        fields = ['email', 'password']
 
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(max_length=100, 
                             widget=forms.TextInput(attrs={
                                 'class':'form-control',
-                                'id':'yourUsername',
+                                'id':'username',
                                 }))
-    
     email = forms.CharField(max_length=100, 
                             widget=forms.TextInput(attrs={
                                 'class':'form-control',
                                 'id':'email',
                                 }))
     
-    password1 = forms.CharField(max_length=100, 
+    location = forms.CharField(max_length=100, 
                             widget=forms.TextInput(attrs={
                                 'class':'form-control',
-                                'id':'password1',
+                                'id':'location',
+                                }))
+    
+
+    password1 = forms.CharField(max_length=100, 
+                            widget=forms.PasswordInput(attrs={
+                                'class':'form-control',
+                                'id':'password',
                                 }))
     
     password2 = forms.CharField(max_length=100, 
-                            widget=forms.TextInput(attrs={
+                            widget=forms.PasswordInput(attrs={
                                 'class':'form-control',
-                                'id':'password2',
-                                }))
-    
-    course = forms.CharField(max_length=100, 
-                            widget=forms.TextInput(attrs={
-                                'class':'form-control',
-                                'id':'course',
-                                }))
-    
-    school = forms.CharField(max_length=100, 
-                            widget=forms.TextInput(attrs={
-                                'class':'form-control',
-                                'id':'school',
+                                'id':'password',
                                 }))
 
     class Meta:
         model = User 
-        fields = ['username', 'email', 'password1','password2']
+        fields = ['username', 'email', 'location', 'password1','password2']
+
+
+class ResetPasswordForm(forms.Form):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={
+                                'class':'form-control',
+                                'id':'old_password',
+                                'label':'Email'
+                                }))
+    
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={
+                                'class':'form-control',
+                                'id':'password1',
+                                'label':'Email'
+                                }))
+    
+    password2 = forms.CharField(max_length=100, 
+                            widget=forms.PasswordInput(attrs={
+                                'class':'form-control',
+                                'id':'password2',
+                                }))
+    class Meta:
+        model = User 
+        fields = ['old_password', 'password1', 'password2']

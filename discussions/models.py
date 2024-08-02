@@ -12,6 +12,7 @@ class Student(models.Model):
     def __str__(self) -> str:
         return self.user.username
     
+    
 class Discussion(models.Model):
     creator = models.ForeignKey(Student, on_delete=models.CASCADE)
     pub_date = models.DateTimeField(blank=False, default=now)
@@ -23,6 +24,7 @@ class Discussion(models.Model):
     def __str__(self) -> str:
         return self.content
     
+    
 class Comment(models.Model):
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE)
@@ -32,6 +34,7 @@ class Comment(models.Model):
 
     def __str__(self) -> str:
         return self.comment_text
+    
 
 class CommentForm(ModelForm):
     class Meta:
@@ -39,4 +42,21 @@ class CommentForm(ModelForm):
         fields = ["comment_text"]
 
 
+class Message(models.Model):
+    discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE)
+    author = models.ForeignKey(Student, on_delete=models.CASCADE)
+    pub_date = models.DateTimeField("date published")
+    message_text = models.TextField()
 
+    def __str__(self) -> str:
+        return self.message_text
+
+
+class Notification(models.Model):
+    discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE)
+    author = models.ForeignKey(Student, on_delete=models.CASCADE)
+    pub_date = models.DateTimeField("date published")
+    content = models.TextField()
+
+    def __str__(self) -> str:
+        return self.content

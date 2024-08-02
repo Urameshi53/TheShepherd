@@ -8,6 +8,7 @@
 
 <div>
   <ol class="list-group list-group">
+    {% for request in requests %}
     <li class="list-group-item d-flex justify-content-between align-items-start">
       <div class="ms-2 me-auto">
         <div class="fw-bold"><a href="{% url 'sliders:detail' request.id %}">{{ request.file_name }}</a></div>
@@ -15,6 +16,7 @@
       </div>
       <span class="badge bg-primary rounded-pill">14</span>
     </li>
+    {% endfor %}
   </ol>
 </div>
 <br>
@@ -33,6 +35,31 @@
         {% endfor %}
 
       </ol>
+</div>
+
+<br>
+
+<div>
+  <h5 class="comment-title">Enter the name of the book to request</h5>
+  <form method="POST" action="{% url 'sliders:request_book' user.id %}">
+
+    {% csrf_token %}
+    <div class="row">
+      <p>
+        {{ form }}
+      </p>
+      
+        <!--<div class="col-12 mb-3">
+          <label for="comment-message">Message</label>--
+
+          <textarea class="form-control" id="comment-message" placeholder="Enter your name" cols="30" rows="10"></textarea>
+        </div>-->
+        <br>
+      <div class="col-4">
+        <input type="submit" class="btn btn-primary" value="Post comment">
+      </div>
+    </div>
+  </form>
 </div>
   
 

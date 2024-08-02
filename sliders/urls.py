@@ -9,6 +9,7 @@ app_name = "sliders"
 urlpatterns = [
     path("", views.IndexView.as_view(), name="sliders"),
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
+    path("<int:user_id>/request_book/", views.request_book , name="request_book"),
     #path("<int:pk>/", views.DetailView.as_view(), name="discuss"),
     #path("", views.SearchView.as_view(), name="search"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

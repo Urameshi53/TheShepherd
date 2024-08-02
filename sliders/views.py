@@ -11,6 +11,7 @@ from repository.models import File
 from discussions.models import Discussion, Student
 
 from .models import Request, Contribution
+from .forms import RequestForm
 
 
 class IndexView(generic.ListView):
@@ -45,5 +46,17 @@ class DetailView(generic.DetailView):
         context['requests'] = Request.objects.filter(requester_id=self.kwargs['pk'])
         context['contributions'] = Contribution.objects.filter(request_id=self.kwargs['pk'])
         context['all_requests'] = Request.objects.all()
+        context['form'] = RequestForm()
+
         
         return context
+    
+
+
+def request_book(request, user_id):
+    new_request = Request()
+    new_request.file_name = request.POST['book_name']
+    new_request.pub_date = datetime.datetime.now()
+    new_request.requester =request.user
+    new_request.save()
+    return HttpResponseRedirect(f"/sliders/{user_id}/")
