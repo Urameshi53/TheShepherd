@@ -17,6 +17,7 @@ class Discussion(models.Model):
     creator = models.ForeignKey(Student, on_delete=models.CASCADE)
     pub_date = models.DateTimeField(blank=False, default=now)
     content = models.CharField(max_length=200)
+    description = models.CharField(max_length=1024, blank=True, default='This is just a sample')
     votes = models.IntegerField()
     course = models.CharField(max_length=60)
     num_of_participants = models.IntegerField()

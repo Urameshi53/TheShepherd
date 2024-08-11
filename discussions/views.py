@@ -43,7 +43,8 @@ class DetailView(generic.DetailView):
         context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
         context['comments'] = Comment.objects.filter(discussion_id=self.kwargs['pk'])#blog__pk=9)#context['blogs'].values('id'))
         context['form'] = CommentForm()
-
+        context['requests'] = Request.objects.all()
+        
         if self.request.user.is_authenticated:
             context['student'] = Student.objects.filter(user=self.request.user)[0]
 

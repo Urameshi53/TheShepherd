@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'discussions.apps.DiscussionsConfig',
     'repository.apps.RepositoryConfig',
     'search.apps.SearchConfig',
+    'projects.apps.ProjectsConfig',
     'sliders.apps.SlidersConfig',
     'django.contrib.admin',
     'django.contrib.auth',

@@ -30,9 +30,9 @@ class IndexView(generic.ListView):
         #context['discussions'] = Search.get_result()        
         context['files'] = File.objects.all()
         context['student'] = Student.objects.filter(user=self.request.user)[0]
-        context['requests'] = Request.objects.all()
-        context['contributions'] = Contribution.objects.all()
-        
+        context['requests'] = Request.objects.filter(requester_id=self.request.user.id)
+        #context['files'] = File.objects.filter(owner_id=self.request.user.id)
+        context['form'] = RequestForm()
 
         return context
 
@@ -43,10 +43,9 @@ class DetailView(generic.DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(DetailView, self).get_context_data(*args, **kwargs)
         context['student'] = Student.objects.filter(user=self.request.user)[0]
-        context['requests'] = Request.objects.filter(requester_id=self.kwargs['pk'])
+        #context['requests'] = Request.objects.filter(requester_id=self.kwargs['pk'])
         context['contributions'] = Contribution.objects.filter(request_id=self.kwargs['pk'])
         context['all_requests'] = Request.objects.all()
-        context['form'] = RequestForm()
 
         
         return context
@@ -59,4 +58,4 @@ def request_book(request, user_id):
     new_request.pub_date = datetime.datetime.now()
     new_request.requester =request.user
     new_request.save()
-    return HttpResponseRedirect(f"/sliders/{user_id}/")
+    return HttpResponseRedirect(f"/sliders/")
