@@ -44,7 +44,6 @@ class CommentForm(ModelForm):
 
 
 class Message(models.Model):
-    discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE)
     author = models.ForeignKey(Student, on_delete=models.CASCADE)
     pub_date = models.DateTimeField("date published")
     message_text = models.TextField()

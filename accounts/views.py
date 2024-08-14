@@ -76,7 +76,7 @@ def signup_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         email = request.POST.get('email')
-        location = request.POST.get('location')
+        location = request.POST.get('school')
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
 
@@ -90,6 +90,10 @@ def signup_view(request):
             user.email = email
             user.set_password(password1)
             user.save()
+
+            student = Student()
+            student.user = user 
+            student.save()
 
             auth_login(request, user)
             #return render(request, 'accounts/send_email.html')

@@ -21,9 +21,11 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
 from discussions.views import IndexView
+from accounts.views import login
 
 urlpatterns = [
-    path("", IndexView.as_view(), name="home"),
+    path('', login, name='login'),
+    path("discussions/", IndexView.as_view(), name="home"),
     path('discussions/', include('discussions.urls')),
     path('repository/', include('repository.urls')),
     path('search/', include('search.urls')),
