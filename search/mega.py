@@ -9,6 +9,9 @@ import sklearn.datasets
 from discussions.models import Discussion
 from repository.models import File 
 
+from googlesearch import search
+searches = search("Google", num_results=100)
+
 english_stemmer = nltk.stem.SnowballStemmer('english')
 
 class StemmedCountVectorizer(CountVectorizer):

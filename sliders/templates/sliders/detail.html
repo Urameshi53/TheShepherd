@@ -43,6 +43,45 @@
 {% endblock %}
 
 
+{% block trending %}
+
+<!-- News & Updates Traffic -->
+<div class="card">
+  <div class="filter">
+    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+      <li class="dropdown-header text-start">
+        <h6>Filter</h6>
+      </li>
+
+      <li><a class="dropdown-item" href="#">Today</a></li>
+      <li><a class="dropdown-item" href="#">This Month</a></li>
+      <li><a class="dropdown-item" href="#">This Year</a></li>
+    </ul>
+  </div>
+
+  <div class="card-body pb-0">
+    <h5 class="card-title">Trending | Today</span></h5>
+
+    <div class="news">
+
+      {% for trend in trending %}
+      <div class="post-item clearfix">
+        <img src="{% static trend.back_img.url %}" alt="">
+        <h4><a href="#">{{ trend }}</a></h4>
+        <p>{{ trend.likes }} likes</p>
+        <p>Posted by {{ trend.owner.user.username }} at {{ trend.pub_date.time }}</p>
+      </div>
+      {% endfor %}
+      
+
+    </div><!-- End sidebar recent posts-->
+
+  </div>
+</div><!-- End News & Updates -->
+
+{% endblock %}
+
 {% block activity %}
 
 <!-- Recent Activity -->
@@ -82,5 +121,43 @@
 
   </div>
 </div><!-- End Recent Activity -->
+
+{% endblock %}
+
+{% block latest %}
+
+<!-- News & Updates Traffic -->
+<div class="card">
+  <div class="filter">
+    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+      <li class="dropdown-header text-start">
+        <h6>Filter</h6>
+      </li>
+
+      <li><a class="dropdown-item" href="#">Today</a></li>
+      <li><a class="dropdown-item" href="#">This Month</a></li>
+      <li><a class="dropdown-item" href="#">This Year</a></li>
+    </ul>
+  </div>
+
+  <div class="card-body pb-0">
+    <h5 class="card-title">Latest | Today</span></h5>
+
+    <div class="news">
+
+      {% for discussion in latest %}
+      <div class="post-item clearfix">
+        <img src="{% static discussion.creator.back_img.url %}" alt="">
+        <h4><a href="#">{{ discussion.content }}</a></h4>
+        <p>{{ discussion.description }}</p>
+      </div>
+      {% endfor %}
+      
+
+    </div><!-- End sidebar recent posts-->
+
+  </div>
+</div><!-- End News & Updates -->
 
 {% endblock %}

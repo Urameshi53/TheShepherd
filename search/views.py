@@ -34,12 +34,13 @@ class IndexView(generic.ListView):
         context['files'] = File.objects.all()
         context['student'] = Student.objects.filter(user=self.request.user)[0]
         context['form'] = SearchForm(self.request.GET)
+        context['discussions'] = Discussion.objects.all()
 
         #print(context['form'].is_valid())
         if context['form'].is_valid():
             s = Search()
             query = context['form'].cleaned_data['query']
-            context['results'] = s.find(query)
+            context['results'] = s.find_s(query)
             #print(context['results'])
 
         return context

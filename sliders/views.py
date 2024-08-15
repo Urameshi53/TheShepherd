@@ -33,6 +33,9 @@ class IndexView(generic.ListView):
         context['requests'] = Request.objects.filter(requester_id=self.request.user.id)
         #context['files'] = File.objects.filter(owner_id=self.request.user.id)
         context['form'] = RequestForm()
+        context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+        #context['requests'] = Request.objects.all()[:5]
+        context['trending'] = File.objects.all().order_by('-likes')[:5]
 
         return context
 
@@ -46,7 +49,9 @@ class DetailView(generic.DetailView):
         #context['requests'] = Request.objects.filter(requester_id=self.kwargs['pk'])
         context['contributions'] = Contribution.objects.filter(request_id=self.kwargs['pk'])
         context['all_requests'] = Request.objects.all()
-
+        context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+        context['requests'] = Request.objects.all()[:5]
+        context['trending'] = File.objects.all().order_by('-likes')[:5]
         
         return context
     

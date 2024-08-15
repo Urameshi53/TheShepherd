@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 
 from sliders.models import Request
 from repository.models import File
-from discussions.models import Student
+from discussions.models import Student, Discussion
 
 class IndexView(generic.ListView):
     template_name = "projects/index.html"
@@ -26,6 +26,8 @@ class IndexView(generic.ListView):
         context['files'] = File.objects.all()[::-1]
         #context['files'] = File.objects.filter(owner_id=self.request.user.id)
         context['student'] = Student.objects.filter(user=self.request.user)[0]
-        context['requests'] = Request.objects.all()
+        context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+        context['requests'] = Request.objects.all()[:5]
+        context['trending'] = File.objects.all().order_by('-likes')[:5]
 
         return context

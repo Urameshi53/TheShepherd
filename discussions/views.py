@@ -25,9 +25,9 @@ class IndexView(generic.ListView):
     
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super(IndexView, self).get_context_data(**kwargs)
-        context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
         context['students'] = Student.objects.all()
-        context['requests'] = Request.objects.all()
+        context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+        context['requests'] = Request.objects.all()[:5]
         context['trending'] = File.objects.all().order_by('-likes')[:5]
 
         if self.request.user.is_authenticated:
@@ -42,12 +42,12 @@ class DetailView(generic.DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(DetailView, self).get_context_data(*args, **kwargs)
         context['discussions'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
-        context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
-        context['trending'] = File.objects.all().order_by('-likes')[:5]
         context['comments'] = Comment.objects.filter(discussion_id=self.kwargs['pk'])#blog__pk=9)#context['blogs'].values('id'))
         context['form'] = CommentForm()
         context['requests'] = Request.objects.all()
-        
+        context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+        context['trending'] = File.objects.all().order_by('-likes')[:5]
+
         if self.request.user.is_authenticated:
             context['student'] = Student.objects.filter(user=self.request.user)[0]
 

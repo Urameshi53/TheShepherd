@@ -31,8 +31,8 @@
 
         <div class="post-entry-1 border-bottom">
           <div class="post-meta"><span class="date">Sport</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-          <h2 class="mb-2"><a href="#">{{ discussion.content }}</a></h2>
-          <span class="author mb-3 d-block">{{ discussion.creator.user.username }}</span>
+          <h2 class="mb-2"><a href="#">{{ discussion.title }}</a></h2>
+          <span class="author mb-3 d-block">{{ discussion.description }}</span>
         </div>
 
         {% endfor %}
@@ -41,9 +41,13 @@
       <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
         {% for discussion in discussions %}
 
-        <img src="{% static discussion.creator.back_img.url %}" alt="" class="img-fluid">
-        
-        {% endfor %}
+        <div class="post-entry-1 border-bottom">
+          <div class="post-meta"><span class="date">{{ discussion.topic }}</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
+          <h2 class="mb-2"><a href="#">{{ discussion.content }}</a></h2>
+          <span class="author mb-3 d-block">{{ discussion.description }}</span>
+        </div>
+
+        {% endfor %}s
       </div>
 
       <div class="tab-pane fade" id="files" role="tabpanel" aria-labelledby="files-tab">
@@ -72,3 +76,121 @@
 
 {% endblock %}
 
+{% block trending %}
+
+<!-- News & Updates Traffic -->
+<div class="card">
+  <div class="filter">
+    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+      <li class="dropdown-header text-start">
+        <h6>Filter</h6>
+      </li>
+
+      <li><a class="dropdown-item" href="#">Today</a></li>
+      <li><a class="dropdown-item" href="#">This Month</a></li>
+      <li><a class="dropdown-item" href="#">This Year</a></li>
+    </ul>
+  </div>
+
+  <div class="card-body pb-0">
+    <h5 class="card-title">Trending | Today</span></h5>
+
+    <div class="news">
+
+      {% for trend in trending %}
+      <div class="post-item clearfix">
+        <img src="{% static trend.back_img.url %}" alt="">
+        <h4><a href="#">{{ trend }}</a></h4>
+        <p>{{ trend.likes }} likes</p>
+        <p>Posted by {{ trend.owner.user.username }} at {{ trend.pub_date.time }}</p>
+      </div>
+      {% endfor %}
+      
+
+    </div><!-- End sidebar recent posts-->
+
+  </div>
+</div><!-- End News & Updates -->
+
+{% endblock %}
+
+{% block activity %}
+
+<!-- Recent Activity -->
+<div class="card">
+  <div class="filter">
+    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+      <li class="dropdown-header text-start">
+        <h6>Filter</h6>
+      </li>
+
+      <li><a class="dropdown-item" href="#">Today</a></li>
+      <li><a class="dropdown-item" href="#">This Month</a></li>
+      <li><a class="dropdown-item" href="#">This Year</a></li>
+    </ul>
+  </div>
+
+  <div class="card-body">
+    <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+
+    <div class="activity">
+
+      {% for request in requests %}
+
+      <div class="activity-item d-flex">
+        <div class="activite-label">{{ request.pub_date | timesince }}</div>
+        <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+        <div class="activity-content">
+          {{ request.file_name }} <br>
+          <a href="#" class="fw-bold text-dark">{{ request.requester.username }}</a>
+        </div>
+      </div><!-- End activity item-->
+
+      {% endfor %}
+
+    </div>
+
+  </div>
+</div><!-- End Recent Activity -->
+
+{% endblock %}
+
+{% block latest %}
+
+<!-- News & Updates Traffic -->
+<div class="card">
+  <div class="filter">
+    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+      <li class="dropdown-header text-start">
+        <h6>Filter</h6>
+      </li>
+
+      <li><a class="dropdown-item" href="#">Today</a></li>
+      <li><a class="dropdown-item" href="#">This Month</a></li>
+      <li><a class="dropdown-item" href="#">This Year</a></li>
+    </ul>
+  </div>
+
+  <div class="card-body pb-0">
+    <h5 class="card-title">Latest | Today</span></h5>
+
+    <div class="news">
+
+      {% for discussion in latest %}
+      <div class="post-item clearfix">
+        <img src="{% static discussion.creator.back_img.url %}" alt="">
+        <h4><a href="#">{{ discussion.content }}</a></h4>
+        <p>{{ discussion.description }}</p>
+      </div>
+      {% endfor %}
+      
+
+    </div><!-- End sidebar recent posts-->
+
+  </div>
+</div><!-- End News & Updates -->
+
+{% endblock %}

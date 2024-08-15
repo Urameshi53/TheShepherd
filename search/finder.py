@@ -3,6 +3,10 @@ import re
 
 from discussions.models import Discussion
 
+from googlesearch import search
+
+searches = search("Google", num_results=100)
+
 def match_words(words, string):
     return regex.search(r'\b\L<words>\b', string, words=words)
 
@@ -38,5 +42,9 @@ class Search(object):
 
         return self.results
         #print(l)
+
+    def find_s(self, query):
+        searches = search(query, advanced=True)
+        return searches
 
 #find(query, text)
