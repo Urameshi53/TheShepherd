@@ -75,3 +75,21 @@ class ResetPasswordForm(forms.Form):
     class Meta:
         model = User 
         fields = ['old_password', 'password1', 'password2']
+
+
+class DiscussionForm(forms.Form):    
+    content = forms.CharField(widget=forms.TextInput(attrs={
+                                'class':'form-control',
+                                'id':'password1',
+                                'label':'content'
+                                }))
+    
+    description = forms.CharField(max_length=100, 
+                            widget=forms.Textarea(attrs={
+                                'class':'form-control',
+                                'id':'password2',
+                                'label':'description'
+                                }))
+    class Meta:
+        model = User 
+        fields = ['content', 'description']

@@ -11,8 +11,8 @@
 
         <!-- ======= Single Post Content ======= -->
         <div class="single-post">
-          <div class="post-meta"><span class="date">Business</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-          <h1 class="mb-5">{{ discussion.content }}</h1>
+          <div class="post-meta"><span class="date">{{ discussion.topic }}</span> <span class="mx-1">&bullet;</span> <span>{{ discussion.pub_date.time }}</span></div>
+          <h3 class="mb-5">{{ discussion.content }}</h3>
           <p>{{ discussion.description }}</p>
         </div><!-- End Single Post Content -->
 
@@ -65,6 +65,45 @@
     </div>
   </div>
 </section>
+
+{% endblock %}
+
+{% block trending %}
+
+<!-- News & Updates Traffic -->
+<div class="card">
+  <div class="filter">
+    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+      <li class="dropdown-header text-start">
+        <h6>Filter</h6>
+      </li>
+
+      <li><a class="dropdown-item" href="#">Today</a></li>
+      <li><a class="dropdown-item" href="#">This Month</a></li>
+      <li><a class="dropdown-item" href="#">This Year</a></li>
+    </ul>
+  </div>
+
+  <div class="card-body pb-0">
+    <h5 class="card-title">Trending | Today</span></h5>
+
+    <div class="news">
+
+      {% for trend in trending %}
+      <div class="post-item clearfix">
+        <img src="{% static trend.back_img.url %}" alt="">
+        <h4><a href="#">{{ trend }}</a></h4>
+        <p>{{ trend.likes }} likes</p>
+        <p>Posted by {{ trend.owner.user.username }} at {{ trend.pub_date.time }}</p>
+      </div>
+      {% endfor %}
+      
+
+    </div><!-- End sidebar recent posts-->
+
+  </div>
+</div><!-- End News & Updates -->
 
 {% endblock %}
 

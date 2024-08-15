@@ -8,7 +8,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 import datetime
 from django.core.paginator import Paginator
 
-from sliders.models import Request, Contribution
+from sliders.models import Request, Contribution 
+from repository.models import File
 from .models import Student, Discussion, Comment
 from .forms import CommentForm
 
@@ -16,7 +17,7 @@ from .forms import CommentForm
 class IndexView(generic.ListView):
     template_name = "discussions/index.html"
     context_object_name = "discussions"
-    paginate_by = 5
+    paginate_by = 10
     model = Discussion
 
     def get_queryset(self):
@@ -27,6 +28,7 @@ class IndexView(generic.ListView):
         context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
         context['students'] = Student.objects.all()
         context['requests'] = Request.objects.all()
+        context['trending'] = File.objects.all().order_by('-likes')[:5]
 
         if self.request.user.is_authenticated:
             context['student'] = Student.objects.filter(user=self.request.user)[0]
@@ -41,6 +43,7 @@ class DetailView(generic.DetailView):
         context = super(DetailView, self).get_context_data(*args, **kwargs)
         context['discussions'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
         context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+        context['trending'] = File.objects.all().order_by('-likes')[:5]
         context['comments'] = Comment.objects.filter(discussion_id=self.kwargs['pk'])#blog__pk=9)#context['blogs'].values('id'))
         context['form'] = CommentForm()
         context['requests'] = Request.objects.all()

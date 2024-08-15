@@ -14,8 +14,8 @@ from django.views import generic
 from django.template import RequestContext
 import re
 
-from .forms import LoginForm, RegistrationForm, ResetPasswordForm
-from discussions.models import Student
+from .forms import LoginForm, RegistrationForm, ResetPasswordForm, DiscussionForm
+from discussions.models import Student, Discussion
 
 other_error_messages = []
 
@@ -26,6 +26,8 @@ class ProfileView(generic.DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProfileView, self).get_context_data(*args, **kwargs)
         context['student'] = Student.objects.filter(user=self.request.user)[0]
+        context['discuss_form'] = DiscussionForm
+        context['reset_form'] = ResetPasswordForm
 
         return context
 
@@ -61,7 +63,7 @@ def login(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('login')
 
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 def check_email(email):
@@ -129,4 +131,20 @@ def reset_view(request, user_id):
             else:
                 other_error_messages.append('Old password is wrong')
             return HttpResponseRedirect(f"/accounts/{user_id}/")
+
+def discuss_view(request, user_id):
+    form = DiscussionForm
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        description = request.POST.get('description')
+        user = User.objects.get(id=user_id)
+
+        discussion = Discussion()
+        discussion.content = content 
+        discussion.description = description
+        student = Student.objects.filter(user=user)[0]
+        discussion.creator = student
+        discussion.save()
+
+        return HttpResponseRedirect(f"/accounts/{user_id}/")
 

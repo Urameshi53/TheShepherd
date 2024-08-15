@@ -7,7 +7,10 @@ from django.utils.timezone import now
 class Student(models.Model):
     friend = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    back_img = models.ImageField(blank=True, upload_to="images/profiles", default='images/597_1.jpg')
+    phone = models.CharField(max_length=10, default='0548932933', blank=True)
+    school = models.CharField(max_length=60, default='KNUST', blank=True)
+    course = models.CharField(max_length=60, default='Computer Science', blank=True)
+    back_img = models.ImageField(blank=True, upload_to="images/profiles", default='images/profiles/testimonial-1_wBDCxRj.jpg')
 
     def __str__(self) -> str:
         return self.user.username
@@ -18,9 +21,10 @@ class Discussion(models.Model):
     pub_date = models.DateTimeField(blank=False, default=now)
     content = models.CharField(max_length=200)
     description = models.CharField(max_length=1024, blank=True, default='This is just a sample')
-    votes = models.IntegerField()
-    course = models.CharField(max_length=60)
-    num_of_participants = models.IntegerField()
+    topic = models.CharField(max_length=60,blank=False, default='Programming')
+    img = models.ImageField(blank=True, upload_to="images", null=True)
+    votes = models.IntegerField(blank=True, default=100)
+    num_of_participants = models.IntegerField(blank=True, default=50)
 
     def __str__(self) -> str:
         return self.content

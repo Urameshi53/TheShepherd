@@ -9,6 +9,7 @@ class File(models.Model):
     file = models.FileField()
     pub_date = models.DateTimeField(blank=False, default=now)
     file_name = models.CharField(max_length=60, blank=True, default='Book')
+    likes = models.IntegerField(null=True, blank=True)
     back_img = models.ImageField(blank=True, upload_to="images/books", default='images/597_1.jpg')
 
     def __str__(self):
