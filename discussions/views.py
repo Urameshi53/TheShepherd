@@ -28,7 +28,7 @@ class IndexView(generic.ListView):
         context['students'] = Student.objects.all()
         context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
         context['requests'] = Request.objects.all()[:5]
-        context['trending'] = File.objects.all().order_by('-likes')[:5]
+        context['trending'] = File.objects.all()[:5]
 
         if self.request.user.is_authenticated:
             context['student'] = Student.objects.filter(user=self.request.user)[0]
@@ -46,7 +46,7 @@ class DetailView(generic.DetailView):
         context['form'] = CommentForm()
         context['requests'] = Request.objects.all()
         context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
-        context['trending'] = File.objects.all().order_by('-likes')[:5]
+        context['trending'] = File.objects.all()[:5]
 
         if self.request.user.is_authenticated:
             context['student'] = Student.objects.filter(user=self.request.user)[0]
@@ -70,7 +70,18 @@ def post_comment(request, discussion_id):
     discussion.comment_set.add(new_comment)
     return HttpResponseRedirect(f"/discussions/{discussion_id}/")
 
-    
+def like(request, discussion_id):
+    discussion = get_object_or_404(Discussion, pk=discussion_id)
+    discussion.likes += 1
+    discussion.save()
+    return HttpResponseRedirect(f"/discussions/")
+
+def dislike(request, discussion_id):
+    discussion = get_object_or_404(Discussion, pk=discussion_id)
+    discussion.dislikes -= 1
+    discussion.save()
+    return HttpResponseRedirect(f"/discussions/")
+
 def search(request):
     form = ''#SearchForm(request.GET)
     results = []

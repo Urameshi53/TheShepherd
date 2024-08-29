@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import DateInput, ModelForm
@@ -23,8 +24,12 @@ class Discussion(models.Model):
     description = models.CharField(max_length=1024, blank=True, default='This is just a sample')
     topic = models.CharField(max_length=60,blank=False, default='Programming')
     img = models.ImageField(blank=True, upload_to="images", null=True)
-    votes = models.IntegerField(blank=True, default=100)
+    likes = models.IntegerField(blank=True, default=100)
+    dislikes = models.IntegerField(blank=True, default=100)
     num_of_participants = models.IntegerField(blank=True, default=50)
+
+    def was_published_recently(self):
+        return now - datetime.timedelta(days=1) <= self.pub_date <= now
 
     def __str__(self) -> str:
         return self.content

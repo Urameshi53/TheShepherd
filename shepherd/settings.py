@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'projects.apps.ProjectsConfig',
     'sliders.apps.SlidersConfig',
+    'home.apps.HomeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -105,6 +107,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -139,3 +149,14 @@ LOGOUT_REDIRECT_URL = "home"
 
 LOGIN_REDIRECT_URL = "/discussions/"
 LOGOUT_REDIRECT_URL = "/discussions/"
+
+
+# Mail Server variables
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587 
+EMAIL_USE_TLS = True 
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'emmanuelzigah2019@gmail.com'
+EMAIL_HOST_PASSWORD = 'einnbctajayfixyx'
+EXPIRE_AFTER = '1h'

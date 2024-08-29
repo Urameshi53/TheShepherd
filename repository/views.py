@@ -7,8 +7,9 @@ from django.utils import timezone
 from django.http import HttpResponse, HttpResponseRedirect
 import datetime
 from django.core.paginator import Paginator
+from django.utils import timezone
 
-
+from .forms import UploadFileForm
 from .models import File
 from sliders.models import Request
 from discussions.models import Student, Discussion
@@ -28,44 +29,18 @@ class IndexView(generic.ListView):
         context['student'] = Student.objects.filter(user=self.request.user)[0]
         context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
         context['requests'] = Request.objects.all()[:5]
-        context['trending'] = File.objects.all().order_by('-likes')[:5]
+        context['trending'] = File.objects.all()[:5]
+        context['form'] = UploadFileForm
 
         return context
 
-'''
-class DetailView(generic.DetailView):
-    model = File
-    template_name = "repository/details.html"
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(DetailView, self).get_context_data(*args, **kwargs)
-        context['repository'] = File.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
-        context['comments'] = Comment.objects.filter(File_id=self.kwargs['pk'])#blog__pk=9)#context['blogs'].values('id'))
 
-        return context
-        
-    
-
-def post(request, discussion_id):
-    discussion = get_object_or_404(discussion, pk=discussion_id)
-    new_comment = Comment()
-    new_comment.comment_text = request.POST['comment_text']
-    new_comment.pub_date = datetime.datetime.now()
-    new_comment.author = request.user
-    new_comment.discussion_id = discussion_id
-    new_comment.save()
-    discussion.comment_set.add(new_comment)
-    return HttpResponseRedirect(f"/repository/{discussion_id}/")
-
-    
-def search(request):
-    form = ''#SearchForm(request.GET)
-    results = []
-
-    if form.is_valid():
-        query = form.cleaned_data['query']
-        results = Discussion.objects.filter(title__contains=query)
-    
-    return render(request, 'search/search.html', {'form':form, 'results': results})
-'''
-
+def upload_file(request, owner_id):
+    owner_ = get_object_or_404(Student, pk=owner_id)
+    new_file = File()
+    new_file.file = request.POST['file']
+    new_file.pub_date = timezone.now()
+    new_file.save()
+    owner_.file_set.add(new_file)
+    return HttpResponseRedirect(f"/repository/")

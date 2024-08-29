@@ -28,6 +28,6 @@ class IndexView(generic.ListView):
         context['student'] = Student.objects.filter(user=self.request.user)[0]
         context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
         context['requests'] = Request.objects.all()[:5]
-        context['trending'] = File.objects.all().order_by('-likes')[:5]
+        context['trending'] = File.objects.all()[:5]
 
         return context

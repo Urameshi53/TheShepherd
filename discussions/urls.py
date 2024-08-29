@@ -10,5 +10,7 @@ urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
     path("<int:discussion_id>/post_comment/", views.post_comment , name="post_comment"),
+    path("<int:discussion_id>/like/", views.like , name="like"),
+    path("<int:discussion_id>/dislike/", views.dislike, name="dislike"),
     #path("", views.SearchView.as_view(), name="search"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

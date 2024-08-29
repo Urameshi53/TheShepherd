@@ -11,7 +11,7 @@ from repository.models import File
 from discussions.models import Discussion, Student
 
 from .models import Request, Contribution
-from .forms import RequestForm
+from .forms import RequestForm, ContributeForm
 
 
 class IndexView(generic.ListView):
@@ -35,7 +35,7 @@ class IndexView(generic.ListView):
         context['form'] = RequestForm()
         context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
         #context['requests'] = Request.objects.all()[:5]
-        context['trending'] = File.objects.all().order_by('-likes')[:5]
+        context['trending'] = File.objects.all()[:5]
 
         return context
 
@@ -47,11 +47,12 @@ class DetailView(generic.DetailView):
         context = super(DetailView, self).get_context_data(*args, **kwargs)
         context['student'] = Student.objects.filter(user=self.request.user)[0]
         #context['requests'] = Request.objects.filter(requester_id=self.kwargs['pk'])
-        context['contributions'] = Contribution.objects.filter(request_id=self.kwargs['pk'])
+        context['contributions'] = Contribution.objects.filter(contributor_id=self.request.user.id)
         context['all_requests'] = Request.objects.all()
         context['latest'] = Discussion.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
         context['requests'] = Request.objects.all()[:5]
-        context['trending'] = File.objects.all().order_by('-likes')[:5]
+        context['trending'] = File.objects.all()[:5]
+        context['form'] = ContributeForm()
         
         return context
     
@@ -63,4 +64,13 @@ def request_book(request, user_id):
     new_request.pub_date = datetime.datetime.now()
     new_request.requester =request.user
     new_request.save()
+    return HttpResponseRedirect(f"/sliders/")
+
+def contribute_book(request, user_id):
+    owner_ = get_object_or_404(Student, pk=user_id)
+    new_file = File()
+    new_file.file = request.POST['file']
+    new_file.pub_date = timezone.now()
+    new_file.save()
+    owner_.file_set.add(new_file)
     return HttpResponseRedirect(f"/sliders/")

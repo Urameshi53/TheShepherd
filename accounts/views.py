@@ -13,6 +13,9 @@ from django.contrib import messages
 from django.views import generic
 from django.template import RequestContext
 import re
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+
 
 from .forms import LoginForm, RegistrationForm, ResetPasswordForm, DiscussionForm
 from discussions.models import Student, Discussion
@@ -47,10 +50,10 @@ def login(request):
         if user is not None:
             auth_login(request, user)
 
-            if user.is_superuser:
+            '''if user.is_superuser:
                 return redirect('admin')
-            else:
-                return redirect('home')
+            else:'''
+            return redirect('home')
         else: 
             error_messages.append('Email or password is not correct')
             messages.error(request, 'Username or password does not match')
@@ -82,11 +85,22 @@ def signup_view(request):
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
 
+        users = User.objects.all()
+        for i in users:
+            if i.email == email:
+                error_messages.append('Email already exists')
+                return redirect('signup')
+            if i.username == username:
+                error_messages.append('Username already exists')
+                return redirect('signup')
+
+
         if password1 == password2 and check_email(email):
-            '''html_message = render_to_string('accounts/email_message.html')
+            html_message = render_to_string('accounts/email_message.html')
             message = 'Thank you'
-            send_mail(f'Hello {username}, thank you for registering with MicroFocus.', message, 'zigahemmanuel53@gmail.com', ['emmanuelzigah2019@gmail.com',], html_message=html_message)
-                      '''  
+            send_mail(f'Hello {username}, thank you for registering with TheShepherd.', message, 'zigahemmanuel53@gmail.com', ['emmanuelzigah2019@gmail.com',], html_message=html_message)
+
+            
             user = User()
             user.username = username
             user.email = email
@@ -98,8 +112,8 @@ def signup_view(request):
             student.save()
 
             auth_login(request, user)
-            #return render(request, 'accounts/send_email.html')
-            return redirect('home')
+            return render(request, 'accounts/send_email.html')
+            #return redirect('home')
         else:
             if password1 != password2:
                 error_messages.append('Passwords do not match')

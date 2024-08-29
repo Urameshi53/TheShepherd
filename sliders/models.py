@@ -14,7 +14,7 @@ class Request(models.Model):
 
 
 class Contribution(models.Model):
-    contributor = models.ForeignKey(User, on_delete=models.CASCADE)
+    contributor = models.ForeignKey(Student, on_delete=models.CASCADE)
     request = models.ForeignKey(Request, on_delete=models.CASCADE)
     file = models.FileField()
     pub_date = models.DateTimeField(blank=False, default=now)

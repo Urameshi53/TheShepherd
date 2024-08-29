@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% load static %}
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 {% block header %} Discussions {% endblock %}
 {% block bread %}
@@ -20,13 +22,17 @@
                 <div class="name">
                   <h3 class="m-0 p-2">{{ discussion.creator.user.username }}</h3>
                 </div>
-                <div class="photo"><i class="bx bxl-twitter"></i></div>
+                <div class="photo"><a href="{% url 'discussions:like' discussion.id %}"><img src="{% static 'images/like.png' %}" alt=""></a></div>
                 <div class="name">
-                  <h3 class="m-0 p-2">{{ discussion.votes }}</h3>
+                  <h3 class="m-0 p-2">{{ discussion.likes }}</h3>
                 </div>
-                <div class="photo"><i class="bx bxl-twitter"></i></div>
+                <div class="photo"><a href="{% url 'discussions:dislike' discussion.id %}"><img src="{% static 'images/dislike.png' %}" alt=""></a></div>
                 <div class="name">
-                  <h3 class="m-0 p-0">{{ discussion.num_of_participants }}</h3>
+                  <h3 class="m-0 p-0">{{ discussion.dislikes }}</h3>
+                </div> &nbsp; &nbsp; &nbsp;
+                <div class="photo"><i class="bi bi-people"></i></div>
+                <div class="name">
+                  <h3 class="m-0 p-0"> {{ discussion.num_of_participants }} participants</h3>
                 </div>
               </div>
             </div>
@@ -79,9 +85,8 @@
 
       {% for trend in trending %}
       <div class="post-item clearfix">
-        <img src="{% static trend.back_img.url %}" alt="">
+        <img src="{% static 'images/books/file.png' %}" alt="">
         <h4><a href="#">{{ trend }}</a></h4>
-        <p>{{ trend.likes }} likes</p>
         <p>Posted by {{ trend.owner.user.username }} at {{ trend.pub_date.time }}</p>
       </div>
       {% endfor %}

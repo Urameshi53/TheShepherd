@@ -92,9 +92,8 @@
 
       {% for trend in trending %}
       <div class="post-item clearfix">
-        <img src="{% static trend.back_img.url %}" alt="">
+        <img src="{% static 'images/books/file.png' %}" alt="">
         <h4><a href="#">{{ trend }}</a></h4>
-        <p>{{ trend.likes }} likes</p>
         <p>Posted by {{ trend.owner.user.username }} at {{ trend.pub_date.time }}</p>
       </div>
       {% endfor %}

@@ -8,6 +8,5 @@ app_name = "repository"
 
 urlpatterns = [
     path("", views.IndexView.as_view(), name="repository"),
-    #path("<int:pk>/", views.DetailView.as_view(), name="discuss"),
-    #path("", views.SearchView.as_view(), name="search"),
+    path("<int:owner_id>/upload_file/", views.upload_file , name="upload_file"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

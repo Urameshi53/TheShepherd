@@ -8,53 +8,39 @@
 
 <p><h4>Files</h4></p>
 
-<ul class="list-group">
+<ul class="list-group list-group-flush">
     {% for file in files %}
     <li class="list-group-item">{{ file }}</li>
     {% endfor %}
 </ul>
 <br>
 
-{% endblock %}
+<div>
+  <h5 class="comment-title">Enter the name of the book to request</h5>
+  <form method="POST" action="{% url 'repository:upload_file' user.id %}">
 
-{% block trending %}
-
-<!-- News & Updates Traffic -->
-<div class="card">
-  <div class="filter">
-    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-      <li class="dropdown-header text-start">
-        <h6>Filter</h6>
-      </li>
-
-      <li><a class="dropdown-item" href="#">Today</a></li>
-      <li><a class="dropdown-item" href="#">This Month</a></li>
-      <li><a class="dropdown-item" href="#">This Year</a></li>
-    </ul>
-  </div>
-
-  <div class="card-body pb-0">
-    <h5 class="card-title">Trending | Today</span></h5>
-
-    <div class="news">
-
-      {% for trend in trending %}
-      <div class="post-item clearfix">
-        <img src="{% static trend.back_img.url %}" alt="">
-        <h4><a href="#">{{ trend }}</a></h4>
-        <p>{{ trend.likes }} likes</p>
-        <p>Posted by {{ trend.owner.user.username }} at {{ trend.pub_date.time }}</p>
-      </div>
-      {% endfor %}
+    {% csrf_token %}
+    <div class="row">
+      <p>
+        {{ form }}
+      </p>
       
+        <!--<div class="col-12 mb-3">
+          <label for="comment-message">Message</label>--
 
-    </div><!-- End sidebar recent posts-->
-
-  </div>
-</div><!-- End News & Updates -->
+          <textarea class="form-control" id="comment-message" placeholder="Enter your name" cols="30" rows="10"></textarea>
+        </div>-->
+        <br>
+      <div class="col-4">
+        <input type="submit" class="btn btn-primary" value="Submit">
+      </div>
+    </div>
+  </form>
+</div>
 
 {% endblock %}
+
+
 
 {% block activity %}
 
