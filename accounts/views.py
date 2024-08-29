@@ -98,7 +98,7 @@ def signup_view(request):
         if password1 == password2 and check_email(email):
             html_message = render_to_string('accounts/email_message.html')
             message = 'Thank you'
-            send_mail(f'Hello {username}, thank you for registering with TheShepherd.', message, 'zigahemmanuel53@gmail.com', ['emmanuelzigah2019@gmail.com',], html_message=html_message)
+            send_mail(f'Hello {username}, thank you for registering with TheShepherd.', message, 'zigahemmanuel53@gmail.com', [email,], html_message=html_message)
 
             
             user = User()
